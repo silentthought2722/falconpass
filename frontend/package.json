@@ -17,6 +17,7 @@
     "@simplewebauthn/browser": "^13.1.2",
     "argon2-browser": "^1.18.0",
     "autoprefixer": "^10.4.21",
+    "axios": "^1.12.1",
     "install": "^0.13.0",
     "libsodium-wrappers": "^0.7.15",
     "npm": "^11.6.0",

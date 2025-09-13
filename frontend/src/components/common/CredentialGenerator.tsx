@@ -101,7 +101,7 @@ const CredentialGenerator = ({ onCredentialsGenerated }: CredentialGeneratorProp
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', maxWidth: '1200px', mx: 'auto' }}>
+    <Box sx={{ width: '100%' }}>
       <Paper
         elevation={3}
         sx={{

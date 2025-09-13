@@ -65,14 +65,28 @@ const AppLayout = ({ darkMode, toggleDarkMode, onLogout }: AppLayoutProps) => {
             flexGrow: 1,
             p: 3,
             mt: 8,
-            ml: { sm: sidebarOpen ? 30 : 7 },
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            minHeight: 'calc(100vh - 64px)',
             transition: theme.transitions.create(['margin'], {
               easing: theme.transitions.easing.sharp,
               duration: theme.transitions.duration.leavingScreen,
             }),
           }}
         >
-          <Outlet />
+          <Box
+            sx={{
+              width: '100%',
+              maxWidth: '1200px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              margin: '0 auto',
+            }}
+          >
+            <Outlet />
+          </Box>
         </Box>
       </Box>
     </ThemeProvider>

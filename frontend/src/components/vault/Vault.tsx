@@ -251,7 +251,7 @@ const Vault = () => {
   const categories = Array.from(new Set(vaultEntries.map(entry => entry.category).filter(Boolean)));
 
   return (
-    <Box sx={{ flexGrow: 1, py: 3 }}>
+    <Box sx={{ width: '100%', py: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography 
           variant="h4" 

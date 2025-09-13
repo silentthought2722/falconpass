@@ -92,7 +92,7 @@ const Dashboard = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, py: 3 }}>
+    <Box sx={{ width: '100%', py: 3 }}>
       <Typography 
         variant="h4" 
         component="h1" 
