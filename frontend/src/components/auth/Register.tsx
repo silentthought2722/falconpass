@@ -19,9 +19,11 @@ import {
   Tooltip,
 } from '@mui/material';
 import { Visibility, VisibilityOff, Info } from '@mui/icons-material';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -60,9 +62,9 @@ const Register = () => {
   };
   
   const getPasswordStrengthLabel = () => {
-    if (passwordStrength < 40) return 'Weak';
-    if (passwordStrength < 70) return 'Moderate';
-    return 'Strong';
+    if (passwordStrength < 40) return t('auth.weak');
+    if (passwordStrength < 70) return t('auth.moderate');
+    return t('auth.strong');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,17 +78,17 @@ const Register = () => {
     
     // Validation
     if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError('All fields are required');
+      setError(t('auth.allFieldsRequired'));
       return;
     }
     
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('auth.passwordsDoNotMatch'));
       return;
     }
     
     if (passwordStrength < 40) {
-      setError('Please use a stronger password');
+      setError(t('auth.useStrongerPassword'));
       return;
     }
     
@@ -107,7 +109,7 @@ const Register = () => {
       }, 1000);
     } catch (err) {
       setLoading(false);
-      setError('Registration failed. Please try again.');
+      setError(t('auth.registrationFailed'));
       console.error('Registration error:', err);
     }
   };
@@ -118,10 +120,10 @@ const Register = () => {
         <CardContent className="p-8">
           <Box className="text-center mb-6">
             <Typography variant="h4" component="h1" className="font-bold text-primary-600">
-              Create Account
+              {t('auth.createAccount')}
             </Typography>
             <Typography variant="body1" color="textSecondary" className="mt-2">
-              Join FalconPass for secure password management
+              {t('auth.joinFalconPass')}
             </Typography>
           </Box>
           
@@ -133,7 +135,7 @@ const Register = () => {
           
           <form onSubmit={handleSubmit}>
             <TextField
-              label="Username"
+              label={t('common.username')}
               variant="outlined"
               fullWidth
               margin="normal"
@@ -145,7 +147,7 @@ const Register = () => {
             />
             
             <TextField
-              label="Email"
+              label={t('common.email')}
               variant="outlined"
               fullWidth
               margin="normal"
@@ -157,7 +159,7 @@ const Register = () => {
             />
             
             <FormControl variant="outlined" fullWidth margin="normal">
-              <InputLabel htmlFor="password">Password</InputLabel>
+              <InputLabel htmlFor="password">{t('common.password')}</InputLabel>
               <OutlinedInput
                 id="password"
                 name="password"
@@ -168,7 +170,7 @@ const Register = () => {
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
-                      aria-label="toggle password visibility"
+                      aria-label={t('auth.togglePasswordVisibility')}
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                     >
@@ -176,7 +178,7 @@ const Register = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={t('common.password')}
               />
             </FormControl>
             
@@ -184,9 +186,9 @@ const Register = () => {
               <Box sx={{ mt: 1, mb: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                   <Typography variant="body2" sx={{ mr: 1 }}>
-                    Password Strength: {getPasswordStrengthLabel()}
+                    {t('auth.passwordStrength')}: {getPasswordStrengthLabel()}
                   </Typography>
-                  <Tooltip title="Use a mix of uppercase, lowercase, numbers, and special characters. Minimum 8 characters recommended.">
+                  <Tooltip title={t('auth.passwordStrengthTooltip')}>
                     <Info fontSize="small" color="action" />
                   </Tooltip>
                 </Box>
@@ -200,7 +202,7 @@ const Register = () => {
             )}
             
             <FormControl variant="outlined" fullWidth margin="normal">
-              <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+              <InputLabel htmlFor="confirmPassword">{t('common.confirmPassword')}</InputLabel>
               <OutlinedInput
                 id="confirmPassword"
                 name="confirmPassword"
@@ -211,7 +213,7 @@ const Register = () => {
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
-                      aria-label="toggle password visibility"
+                      aria-label={t('auth.togglePasswordVisibility')}
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                     >
@@ -219,7 +221,7 @@ const Register = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Confirm Password"
+                label={t('common.confirmPassword')}
               />
             </FormControl>
             
@@ -232,15 +234,15 @@ const Register = () => {
               disabled={loading}
               className="mt-4"
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? t('auth.creatingAccount') : t('auth.createAccount')}
             </Button>
           </form>
           
           <Box className="text-center mt-4">
             <Typography variant="body2">
-              Already have an account?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <Link component={RouterLink} to="/login" underline="hover">
-                Sign in
+                {t('auth.signIn')}
               </Link>
             </Typography>
           </Box>

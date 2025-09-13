@@ -2,6 +2,7 @@ import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typo
 import { Menu as MenuIcon, Brightness4, Brightness7, AccountCircle, Logout } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LanguageToggle from '../common/LanguageToggle';
 
 interface NavbarProps {
   toggleSidebar: () => void;
@@ -78,6 +79,8 @@ const Navbar = ({ toggleSidebar, toggleDarkMode, darkMode, onLogout }: NavbarPro
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <LanguageToggle />
+          
           <Tooltip title={`Toggle ${darkMode ? 'light' : 'dark'} mode`}>
             <IconButton 
               onClick={toggleDarkMode}

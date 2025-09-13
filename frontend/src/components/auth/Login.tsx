@@ -18,6 +18,7 @@ import {
   Alert,
 } from '@mui/material';
 import { Visibility, VisibilityOff, Fingerprint } from '@mui/icons-material';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface LoginProps {
   onLogin?: () => void;
@@ -25,6 +26,7 @@ interface LoginProps {
 
 const Login = ({ onLogin }: LoginProps) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +38,7 @@ const Login = ({ onLogin }: LoginProps) => {
     setError('');
     
     if (!username || !password) {
-      setError('Please enter both username and password');
+      setError(t('auth.allFieldsRequired'));
       return;
     }
     
@@ -57,7 +59,7 @@ const Login = ({ onLogin }: LoginProps) => {
       }, 1000);
     } catch (err) {
       setLoading(false);
-      setError('Invalid username or password');
+      setError(t('auth.loginFailed'));
       console.error('Login error:', err);
     }
   };
@@ -81,7 +83,7 @@ const Login = ({ onLogin }: LoginProps) => {
       }, 1000);
     } catch (err) {
       setLoading(false);
-      setError('WebAuthn authentication failed');
+      setError(t('auth.loginFailed'));
       console.error('WebAuthn error:', err);
     }
   };
@@ -125,7 +127,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 animation: 'pulse-neon 2s ease-in-out infinite',
               }}
             >
-              FALCONPASS
+              {t('navigation.falconPass')}
             </Typography>
             <Typography 
               variant="body1" 
@@ -135,7 +137,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 fontFamily: 'JetBrains Mono',
               }}
             >
-              SECURE PASSWORD MANAGEMENT SYSTEM
+              {t('auth.joinFalconPass')}
             </Typography>
           </Box>
           
@@ -147,7 +149,7 @@ const Login = ({ onLogin }: LoginProps) => {
           
           <form onSubmit={handleSubmit}>
             <TextField
-              label="USERNAME"
+              label={t('common.username').toUpperCase()}
               variant="outlined"
               fullWidth
               margin="normal"
@@ -188,7 +190,7 @@ const Login = ({ onLogin }: LoginProps) => {
                   fontWeight: 600,
                 }}
               >
-                PASSWORD
+                {t('common.password').toUpperCase()}
               </InputLabel>
               <OutlinedInput
                 id="password"
@@ -213,7 +215,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
-                      aria-label="toggle password visibility"
+                      aria-label={t('auth.togglePasswordVisibility')}
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                       sx={{ color: '#00FFFF' }}
@@ -222,7 +224,7 @@ const Login = ({ onLogin }: LoginProps) => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="PASSWORD"
+                label={t('common.password').toUpperCase()}
               />
             </FormControl>
             
@@ -257,7 +259,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 },
               }}
             >
-              {loading ? 'AUTHENTICATING...' : 'ACCESS GRANTED'}
+              {loading ? t('auth.loggingIn').toUpperCase() : t('common.login').toUpperCase()}
             </Button>
           </form>
           
@@ -311,9 +313,9 @@ const Login = ({ onLogin }: LoginProps) => {
                 borderColor: '#666',
               },
             }}
-          >
-            BIOMETRIC AUTHENTICATION
-          </Button>
+            >
+              {t('auth.signIn').toUpperCase()}
+            </Button>
           
           <Box className="text-center mt-4">
             <Typography 
@@ -323,7 +325,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 fontFamily: 'JetBrains Mono',
               }}
             >
-              NEW USER?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <Link 
                 component={RouterLink} 
                 to="/register" 
@@ -337,7 +339,7 @@ const Login = ({ onLogin }: LoginProps) => {
                   },
                 }}
               >
-                REGISTER ACCOUNT
+                {t('auth.signUp').toUpperCase()}
               </Link>
             </Typography>
           </Box>

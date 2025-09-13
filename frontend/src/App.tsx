@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider, createTheme, CssBaseline, Box, Container, Paper } from '@mui/material'
 import { authService } from './services/authService'
+import { LanguageProvider } from './contexts/LanguageContext'
+import './i18n'
 import './App.css'
 
 // Import components
@@ -14,7 +16,8 @@ import VaultEntryForm from './components/vault/VaultEntryForm'
 import PasswordGenerator from './components/common/PasswordGenerator'
 import CredentialGenerator from './components/common/CredentialGenerator'
 import Settings from './components/settings/Settings'
-import Security from './components/security/Security';
+import Security from './components/security/Security'
+import LanguageToggle from './components/common/LanguageToggle'
 
 // Mock authentication state for development
 const mockAuthState = {
@@ -273,42 +276,48 @@ function App() {
   const AuthContainer = ({ children }: { children: React.ReactNode }) => (
     <Background>
       <Container maxWidth="sm">
-        <Paper 
-          elevation={4} 
-          sx={{ 
-            p: 6, 
-            borderRadius: 4, 
-            boxShadow: '0 0 25px rgba(0, 255, 255, 0.3)',
-            backgroundColor: 'rgba(26, 26, 26, 0.95)',
-            border: '2px solid #00FFFF',
-            position: 'relative',
-            overflow: 'hidden',
-            minHeight: '500px',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: '-100%',
-              width: '100%',
-              height: '100%',
-              background: 'linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.05), transparent)',
-              transition: 'left 0.5s ease',
-            },
-            '&:hover::before': {
-              left: '100%',
-            },
-          }}
-        >
-          {children}
-        </Paper>
+        <Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 1 }}>
+            <LanguageToggle />
+          </Box>
+          <Paper 
+            elevation={4} 
+            sx={{ 
+              p: 6, 
+              borderRadius: 4, 
+              boxShadow: '0 0 25px rgba(0, 255, 255, 0.3)',
+              backgroundColor: 'rgba(26, 26, 26, 0.95)',
+              border: '2px solid #00FFFF',
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: '500px',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.05), transparent)',
+                transition: 'left 0.5s ease',
+              },
+              '&:hover::before': {
+                left: '100%',
+              },
+            }}
+          >
+            {children}
+          </Paper>
+        </Box>
       </Container>
     </Background>
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
+    <LanguageProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
         <Routes>
           <Route
             path="/login"
@@ -370,7 +379,8 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </ThemeProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   )
 }
 
