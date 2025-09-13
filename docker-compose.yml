@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # MySQL database
+  mysql:
+    image: mysql:8.0
+    container_name: falcon_pass_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: falcon_pass
+      MYSQL_USER: falcon_user
+      MYSQL_PASSWORD: falcon_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - falcon_network
+
+  # Backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: falcon_pass_backend
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      NODE_ENV: development
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: falcon_user
+      DB_PASSWORD: falcon_password
+      DB_NAME: falcon_pass
+      HOST: 0.0.0.0
+      PORT: 3000
+      RP_ID: localhost
+      ORIGIN: http://localhost:5173
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - falcon_network
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: falcon_pass_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - falcon_network
+
+networks:
+  falcon_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
